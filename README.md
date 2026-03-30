@@ -1,5 +1,8 @@
 # gestao_financeira
 
+#teste
+
+
 arquitetura das pastas:
 faturamento_dashboard/
 │
