@@ -3,12 +3,11 @@
 #teste
 
 
-arquitetura das pastas:
 faturamento_dashboard/
 │
 ├── manage.py
 │
-├── core/                          # Configurações do projeto
+├── core/                          # Configuração do projeto Django
 │   ├── __init__.py
 │   ├── settings.py
 │   ├── urls.py
@@ -18,7 +17,7 @@ faturamento_dashboard/
 ├── apps/                          # Apps do sistema
 │   ├── __init__.py
 │
-│   ├── usuarios/
+│   ├── usuarios/                  # Login e autenticação
 │   │   ├── migrations/
 │   │   ├── __init__.py
 │   │   ├── models.py
@@ -26,10 +25,10 @@ faturamento_dashboard/
 │   │   ├── forms.py
 │   │   ├── urls.py
 │   │   ├── admin.py
-│   │   ├── services.py          
+│   │   ├── services.py
 │   │   └── tests.py
 │   │
-│   ├── vendas/
+│   ├── vendas/                    # Dados principais de vendas
 │   │   ├── migrations/
 │   │   ├── __init__.py
 │   │   ├── models.py
@@ -37,10 +36,11 @@ faturamento_dashboard/
 │   │   ├── forms.py
 │   │   ├── urls.py
 │   │   ├── admin.py
-│   │   ├── services.py           # cálculos de faturamento
+│   │   ├── services.py           # regras de negócio (faturamento, ticket médio)
+│   │   ├── selectors.py          # consultas (filtros, agregações)
 │   │   └── tests.py
 │   │
-│   ├── produtos/
+│   ├── produtos/                 # Produtos (inicialmente visual)
 │   │   ├── migrations/
 │   │   ├── __init__.py
 │   │   ├── models.py
@@ -50,26 +50,45 @@ faturamento_dashboard/
 │   │   ├── admin.py
 │   │   └── tests.py
 │   │
-│   ├── dashboard/
+│   ├── dashboard/                # Lógica de exibição do dashboard
 │   │   ├── migrations/
 │   │   ├── __init__.py
-│   │   ├── models.py            # pode ficar vazio
 │   │   ├── views.py
 │   │   ├── urls.py
-│   │   ├── services.py          # métricas e gráficos
+│   │   ├── services.py           # métricas e dados para gráficos
 │   │   ├── admin.py
 │   │   └── tests.py
 │   │
-│   └── utils/                   # utilitários globais
-│       ├── __init__.py
-│       ├── helpers.py
-│       └── validators.py
+│   ├── importacoes/              # 🔥 MÓDULO PRINCIPAL DO PROJETO
+│   │   ├── migrations/
+│   │   ├── __init__.py
+│   │   ├── models.py             # controle de uploads
+│   │   ├── views.py              # tela de upload
+│   │   ├── forms.py              # form de upload CSV
+│   │   ├── urls.py
+│   │   ├── admin.py
+│   │   ├── services.py           # orquestra importação
+│   │   │
+│   │   ├── parsers/              # 🔥 parsing por canal
+│   │   │   ├── __init__.py
+│   │   │   ├── base.py           # classe base
+│   │   │   ├── mercado_livre.py
+│   │   │   ├── tiktok.py
+│   │   │   ├── shopee.py
+│   │   │
+│   │   └── tests.py
+│
+├── utils/                        # funções globais (fora dos apps)
+│   ├── __init__.py
+│   ├── helpers.py
+│   ├── validators.py
+│   └── constants.py
 │
 ├── templates/                   # HTML global
 │   ├── base.html
 │   │
 │   ├── components/
-│   │   ├── sidebar.html        # menu lateral
+│   │   ├── sidebar.html
 │   │   ├── navbar.html
 │   │   └── alerts.html
 │   │
@@ -82,8 +101,12 @@ faturamento_dashboard/
 │   │
 │   ├── vendas/
 │   │   ├── lista.html
-│   │   ├── form.html
-│   │   └── upload.html
+│   │   └── form.html
+│   │
+│   ├── importacoes/
+│   │   ├── upload.html
+│   │   ├── resultado.html
+│   │   └── erros.html
 │   │
 │   └── produtos/
 │       ├── lista.html
@@ -91,17 +114,24 @@ faturamento_dashboard/
 │
 ├── static/                      # Arquivos estáticos
 │   ├── css/
-│   │   └── style.css
+│   │   ├── style.css
+│   │   └── dashboard.css
 │   │
 │   ├── js/
 │   │   ├── main.js
-│   │   └── charts.js           # gráficos (Chart.js)
+│   │   ├── charts.js
+│   │   └── upload.js
 │   │
 │   └── img/
 │
-├── media/                       # Uploads (planilhas)
+├── media/                       # uploads de planilhas
 │
-├── .env                         # variáveis de ambiente
+├── samples/                     # exemplos de CSV (opcional, mas MUITO útil)
+│   ├── mercado_livre.csv
+│   ├── tiktok.csv
+│   └── shopee.csv
+│
+├── .env
 ├── .gitignore
 ├── requirements.txt
 └── README.md
